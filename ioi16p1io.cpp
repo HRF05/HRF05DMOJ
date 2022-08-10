@@ -1,0 +1,55 @@
+#include <iostream>
+#include <queue>
+#include <algorithm>
+using namespace std;
+int main(){ // 200001
+	int n, l, u, p = 0;
+	pair<int, int> t[200001];
+	long long k[200001];
+	cin>>n>>l>>u;
+	
+	for(int i = 0; i < n; i++){
+		cin >> t[i].first;
+		t[i].second = i;
+	}
+	
+	sort(t, t + n);
+	k[0] = t[0].first;
+	for(int i = 1; i < n; i++)
+		k[i] = k[i - 1] + t[i].first;
+	for(int i = 1; i <= n; i++){
+		if(k[i-1] <= u && k[n-1] - k[n-i-1] >= l){
+			p = i;
+			break;
+		}
+	}
+	if(p == 0){
+		cout << 0 << endl;
+		return 0;
+	}
+
+	cout << p << endl;
+	queue<int> q;
+	int sum = k[p-1], g = n - 1, s = 0;
+	for(int i = 0; i < p; i++){
+		q.push(t[i].second);
+	}
+	while(g >= 0){
+		if(sum >= l && sum <= u){
+			for(int i = 0; i < p; i++){
+				cout << q.front() << " ";
+				q.pop();
+			}
+			return 0;
+		}
+		else{
+			sum -= t[s].first;
+			sum += t[g].first;
+			q.pop();
+			q.push(t[g].second);
+			g--;
+			s++;
+		}
+	}
+	cout<<"?"<<endl;
+}
