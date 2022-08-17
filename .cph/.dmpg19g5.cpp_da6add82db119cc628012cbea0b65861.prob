@@ -1,0 +1,1 @@
+{"name":"Local: dmpg19g5","url":"c:\\Users\\henry\\projects\\sprint\\link\\dmoj\\dmpg19g5.cpp","tests":[{"id":1660610307088,"input":"5 4\n1 3 3\n2 3 3\n3 4 1\n4 5 3","output":"1 / 3\n1 / 3\n1 / 1\n1 / 1\n1 / 3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\henry\\projects\\sprint\\link\\dmoj\\dmpg19g5.cpp","group":"local","local":true}
