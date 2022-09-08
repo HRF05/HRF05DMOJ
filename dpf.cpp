@@ -38,41 +38,26 @@ struct tri {int first, second, t ;};
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-const int MAX = 16;
-int n, ans = 0;
-vector<int> wt;
+int dp[3001][3001], fl, sl;
+string f, s, ans;
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
-    cin>>n;
-    for(int i = 0, a; i < n; i++){
-        cin>>a;
-        wt.pb(a);
+    cin>>f>>s;
+    fl = f.length(); sl = s.length();
+    for(int i = 1; i <= fl; i++){
+        for(int y = 1; y <= sl; y++){
+            dp[i][y] = max(dp[i][y-1], dp[i-1][y]);
+            if(f[i-1] == s[y-1]) dp[i][y] = max(dp[i][y], 1 + dp[i-1][y-1]);
+        }
     }
-    sort(wt.begin(), wt.end());
-    deque<int> q(wt.begin(), wt.end());
-    while(!q.empty()){
-        if(q.size() == 1){
-            ans += q[0];
-            q.pop_front();
-        }
-        else if(q.size() == 2){
-            ans += q[1];
-            q.pop_front();q.pop_front();
-        }
-        else if(q.size() == 3){
-            ans += q[1] + q[2] + q[0];
-            q.pop_front();q.pop_front();q.pop_front();
-        }
+    while(fl > 0 && sl > 0){
+        if(dp[fl][sl] == dp[fl-1][sl]) fl--;
+        else if(dp[fl][sl] == dp[fl][sl-1]) sl--;
         else{
-            if(q[q.size() - 1] + q[q.size()-2] + q[0] * 2 > q[1] * 2 + q[0] + q[q.size() - 1]){
-                ans += q[1] * 2 + q[0] + q[q.size() - 1];
-                q.pop_back();q.pop_back();
-            }
-            else{
-                ans += q[q.size() - 1] + q[q.size()-2] + q[0] * 2;
-                q.pop_back();q.pop_back();
-            }
+            ans += s[sl-1];
+            fl--;sl--;
         }
     }
+    reverse(ans.begin(), ans.end());
     cout<<ans<<endl;
 }
