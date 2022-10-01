@@ -1,25 +1,14 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
+int main(){
 	int n, m = 0, i;
 	char a[10000], b[10000];
 	cin >> n;
-	for (i = 0; i < n; i++)
-	{
-		cin >> a[i];
-	}
-	for (i = 0; i < n; i++)
-	{
+	for (i = 0; i < n; i++) cin >> a[i];
+	for (i = 0; i < n; i++){
 		cin >> b[i];
-	}
-	for (i = 0; i < n; i++)
-	{
-		if (a[i] == b[i])
-		{
-			m = m + 1;
-		}
+		if (a[i] == b[i]) m++;
 	}
 	cout << m << " ";
 }

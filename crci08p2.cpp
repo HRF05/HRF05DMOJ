@@ -30,28 +30,23 @@ typedef vector<vl> vvl;
 struct tri {int f, s, t ;};
 #define f first
 #define s second
-#define forn(i,e) for(ll i = 0; i < e; i++)
-#define forsn(i,s,e) for(ll i = s; i < e; i++)
-#define rforn(i,s) for(ll i = s; i >= 0; i--)
-#define rforsn(i,s,e) for(ll i = s; i >= e; i--)
 #define pb push_back
 #define llu long long unsigned
 #define INF 2e18
 #define sc(x) do{while((x=getchar())<'0'); for(x-='0'; '0'<=(_=getchar()); x=(x<<3)+(x<<1)+_-'0');}while(0)
 char _;
-ll i, y, j;
 int n, r, S[51], R[51], P[51], tot = 0;
 char sv[51];
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
     cin>>r;
-    forn(i, r){
+    for(int i = 0; i < r; i++){
         cin>>sv[i];
         S[i] = 0; R[i] = 0; P[i] = 0;
     }
     cin>>n;
-    forn(i, n){
-        forn(y, r){
+    for(int i = 0; i < n; i++){
+        for(int y = 0; y < r; y++){
             char a;
             cin>>a;
             if(a == sv[y]){
@@ -73,7 +68,7 @@ int main(){
     }
     cout<<tot<<endl;
     int btot = 0;
-    forn(i, r){
+    for(int i = 0; i < r; i++){
         int st = S[i] + P[i] * 2, pt = P[i] + R[i] * 2, rt = R[i] + S[i] * 2;
         if(st >= pt && st >= rt){
             btot+=st;
