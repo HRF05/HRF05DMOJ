@@ -1,15 +1,12 @@
 #include <iostream>
 using namespace std;
 
+int a, b, c, d = 0;
 int main(){
-	int a, b, c[202], d = 0;
-	cin>>a;
-	cin>>b;
+	cin>>a>>b;
 	for(int i = 0; i < b; i++){
-		cin>>c[i];
-		if(c[i] >= a){
-			d = d + 1;
-		}
+		cin>>c;
+		d += c >= a;
 	}
 	cout<<d<<endl;
 }

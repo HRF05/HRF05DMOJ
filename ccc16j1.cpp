@@ -1,88 +1,37 @@
-#include <iostream>
+#pragma GCC optimize("Ofast,unroll-loops")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 using namespace std;
-
-int main()
-{
-	string f0;
-	string f1;
-	string f2;
-	string f3;
-	string f4;
-	string f5;
-	cin >> f0;
-	cin >> f1;
-	cin >> f2;
-	cin >> f3;
-	cin >> f4;
-	cin >> f5;
-	int L = 0;
-	int W = 0;
-
-	if (f0 == "L")
-	{
-		L = L + 1;
+using namespace __gnu_pbds;
+typedef long long ll;
+typedef long long unsigned llu;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef vector<ll> vl;
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef vector<vl> vvl;
+struct tri {int first, second, t;bool operator<(const tri& T){return first < T.first;}};
+#define f first
+#define s second
+#define pb push_back
+#define pf push_front
+#define mp make_pair
+#define INF 2e18
+#define su(x) do{while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48);}while(0)
+#define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
+#define sc(x) do{while((x=getchar())<33);}while(0)
+char _; bool _sign;
+char c; int w;
+int main(){
+	cin.sync_with_stdio(0); cin.tie(0);
+	for(int i = 0; i < 6; i++){
+		cin>>c;
+		if(c == 'W') w++;
 	}
-	if (f1 == "L")
-	{
-		L = L + 1;
-	}
-	if (f2 == "L")
-	{
-		L = L + 1;
-	}
-	if (f3 == "L")
-	{
-		L = L + 1;
-	}
-	if (f4 == "L")
-	{
-		L = L + 1;
-	}
-	if (f5 == "L")
-	{
-		L = L + 1;
-	}
-	if (f0 == "W")
-	{
-		W = W + 1;
-	}
-	if (f1 == "W")
-	{
-		W = W + 1;
-	}
-	if (f2 == "W")
-	{
-		W = W + 1;
-	}
-	if (f3 == "W")
-	{
-		W = W + 1;
-	}
-	if (f4 == "W")
-	{
-		W = W + 1;
-	}
-	if (f5 == "W")
-	{
-		W = W + 1;
-	}
-	
-	
-	if (L == 6)
-	{
-		cout << "-1" << endl;
-		return 0;
-	}
-	else if (W == 3 || W == 4)
-	{
-		cout << "2" << endl;
-	}
-	else if (W == 5 || W == 6)
-	{
-		cout << "1" << endl;
-	}
-	else if (W == 1 || W == 2)
-	{
-		cout << "3" << endl;
-	}
+	if(w > 4) cout<<1<<endl;
+	else if(w > 2) cout<<2<<endl;
+	else if(w > 0) cout<<3<<endl;
+	else cout<<-1<<endl;
 }

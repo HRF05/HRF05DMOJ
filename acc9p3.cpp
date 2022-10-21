@@ -1,9 +1,24 @@
 #pragma GCC optimize("Ofast,unroll-loops")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-#include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
+#include <iostream>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <set>
+#include <unordered_set>
+#include <list>
+#include <string>
+#include <stack>
+#include <iomanip>
+#include <fstream>
+#include <chrono>
+#include <random>
+#include <map>
+#include <unordered_map>
+#include <complex>
+#include <algorithm>
+#include <climits>
 using namespace std;
-using namespace __gnu_pbds;
 typedef long long ll;
 typedef long long unsigned llu;
 typedef pair<int,int> pii;
@@ -12,7 +27,7 @@ typedef vector<ll> vl;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 typedef vector<vl> vvl;
-struct tri {int first, second, t;bool operator<(const tri& T){return first < T.first;}};
+struct tri {int first, second, t ;};
 #define f first
 #define s second
 #define pb push_back
@@ -46,21 +61,6 @@ void dijkstra(int nd){
         }
     }
 }
-void dijkstras(){
-    dijkstra(1);
-    for(int i = 1; i <= n; i++){
-        for(int y = 0; y < 12; y++) disto[i][y] = dist[i][y];
-    }
-    dijkstra(n);
-    for(int i = 1; i <= n; i++){
-        int mi = MX;
-        for(int j = 0; j < 12; j++){
-            if(disto[i][j] != MX && dist[i][j] != MX) mi = min(mi, max(dist[i][j], disto[i][j]));
-        }
-        if(mi == MX) cout<<-1<<"\n";
-        else cout<<mi<<"\n";
-    }
-}
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
     su(n);su(m);
@@ -69,5 +69,15 @@ int main(){
         adj[a].pb(mp(b, c));
         adj[b].pb(mp(a, c));
     }
-    dijkstras();
+    dijkstra(1);
+    for(int i = 1; i <= n; i++){
+        for(int y = 0; y < 12; y++) disto[i][y] = dist[i][y];
+    }
+    dijkstra(n);
+    for(int i = 1; i <= n; i++){
+        int mi = MX;
+        for(int j = 0; j < 12; j++) mi = min(mi, max(dist[i][j], disto[i][j]));
+        if(mi == MX) cout<<-1<<"\n";
+        else cout<<mi<<"\n";
+    }
 }

@@ -7,11 +7,7 @@ int main(){
 	cin>>n;
 	for(int i = 0; i < n; i++){
 		cin>>a>>b>>c;
-		if(a * b != c){
-			cout<<"16 BIT S/W ONLY"<<endl;
-		}
-		else{
-			cout<<"POSSIBLE DOUBLE SIGMA"<<endl;
-		}
+		if(a * b != c) cout<<"16 BIT S/W ONLY"<<endl;
+		else cout<<"POSSIBLE DOUBLE SIGMA"<<endl;
 	}
 }

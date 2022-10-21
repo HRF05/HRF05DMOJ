@@ -11,9 +11,7 @@ int main() {
 		getline(cin, b);
 		cout<<i + 1<<" ";
 		for (int y = 1; y < b.length(); y++){
-			if (y != a){
-				cout<<b[y];
-			}
+			if (y != a) cout<<b[y];
 		}
 		cout<<endl;
 	}

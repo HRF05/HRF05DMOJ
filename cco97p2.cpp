@@ -50,9 +50,7 @@ int main(){
         for(int i = 0; i < n; i++){
             cin>>ar[i];
             int y = upper_bound(nm.begin(), nm.end(), ar[i] - 1) - nm.begin();
-            if(y != nm.size()){
-                nm[y] = ar[i];
-            }
+            if(y != nm.size()) nm[y] = ar[i];
             else{
                 nm.pb(ar[i]);
                 ans++;

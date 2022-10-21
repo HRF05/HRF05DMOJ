@@ -1,24 +1,9 @@
 #pragma GCC optimize("Ofast,unroll-loops")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-#include <iostream>
-#include <queue>
-#include <cmath>
-#include <vector>
-#include <set>
-#include <unordered_set>
-#include <list>
-#include <string>
-#include <stack>
-#include <iomanip>
-#include <fstream>
-#include <chrono>
-#include <random>
-#include <map>
-#include <unordered_map>
-#include <complex>
-#include <algorithm>
-#include <climits>
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 using namespace std;
+using namespace __gnu_pbds;
 typedef long long ll;
 typedef long long unsigned llu;
 typedef pair<int,int> pii;
@@ -27,7 +12,7 @@ typedef vector<ll> vl;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 typedef vector<vl> vvl;
-struct tri {int first, second, t ;};
+struct tri {int first, second, t;bool operator<(const tri& T){return first < T.first;}};
 #define f first
 #define s second
 #define pb push_back
@@ -38,20 +23,17 @@ struct tri {int first, second, t ;};
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-int n, ar[101];
+int n, ar[101], t;
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
     cin>>n;
-    for(int i = 0; i < n; i++){
-        cin>>ar[i];
-    }
+    for(int i = 0; i < n; i++) cin>>ar[i];
     sort(ar, ar + n);
-    int t;
-    if(n % 2 == 0) t = n / 2 - 1;
-    if(n % 2 != 0) t = n / 2;
+    if(n % 2) t = n / 2;
+    else t = n / 2 - 1;
     for(int i = 0; i < n / 2; i++){
-        if(t - i >= 0) cout<<ar[t - i]<<" ";
-        cout<<ar[t + i + 1]<<" ";
+        if(t - i >= 0) cout<<ar[t-i]<<" ";
+        cout<<ar[t+i+1]<<" ";
     }
-    if(n % 2 != 0) cout<<ar[0]<<" ";
+    if(n % 2) cout<<ar[0]<<" ";
 }

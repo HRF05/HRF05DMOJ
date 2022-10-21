@@ -43,9 +43,7 @@ int main(){
         else{
             if(!b) cout<<-1<<endl;
             else{
-                for(int i = 0; i < n / 2-1; i++){
-                    cout<<a[i]<<' '<<a[i + n / 2]<<' ';
-                }
+                for(int i = 0; i < n / 2-1; i++) cout<<a[i]<<' '<<a[i + n / 2]<<' ';
                 cout<<a[n/2-1]<<' '<<a[n-1]<<"\n";
             }
         }

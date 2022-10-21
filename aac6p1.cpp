@@ -11,10 +11,10 @@ int main() {
         i++;
     } // t = 14
     while (i){
-      if((t + i) % k == 0){
-        cout<<i<<endl;
-        return 0;
-      }
-      i++;
+        if((t + i) % k == 0){
+            cout<<i<<endl;
+            return 0;
+        }
+        i++;
     }
 }

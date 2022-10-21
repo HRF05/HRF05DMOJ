@@ -38,8 +38,8 @@ struct tri {int first, second, t ;};
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-const int MAX = 1e6 + 5;
-int n, a[2000000], best = 0;
+const int MAX = 2e6 + 5;
+int n, a[MAX], best = 0;
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
     cin>>n;
@@ -47,8 +47,7 @@ int main(){
         cin>>a[i];
     }
     for(int i = 0; i < n; i++){
-        int t = i + n;
-        if(a[i] == a[t]) best++;
+        if(a[i] == a[i+n]) best++;
     }
     cout<<best<<endl;
 }
