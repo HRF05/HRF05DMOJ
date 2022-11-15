@@ -12,7 +12,7 @@ typedef vector<ll> vl;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 typedef vector<vl> vvl;
-struct tri {int first, second, t;bool operator<(const tri& T){return first < T.first;}};
+struct tri {int first, second, t, i;bool operator<(const tri& T){return first > T.first;}};
 #define f first
 #define s second
 #define pb push_back
@@ -23,36 +23,30 @@ struct tri {int first, second, t;bool operator<(const tri& T){return first < T.f
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-const int MAX = 3e3;
-int n, m, q, pre[MAX][MAX], bit[MAX][MAX];
-void update(int r, int c, int val){
-    for(int i = r; i <= n; i += i & -i){
-        for(int y = c; y <= m; y += y & -y) bit[i][y] += val;
-    }
+const int MAX = 1e5 + 5;
+int n, q, bit[MAX], ans[MAX], y = 0;
+pii a[MAX];
+tri qu[MAX];
+void update(int x, int val){
+    for(int i = x; i <= n; i += i&-i) bit[i] += val;
 }
-int query(int r, int c){
+int get(int x){
     int ret = 0;
-    for(int i = r; i; i -= i & -i){
-        for(int y = c; y; y -= y & -y) ret += bit[i][y];
-    }
+    for(int i = x+1; i > 0; i -= i&-i) ret += bit[i];
     return ret;
 }
+bool srt(pii a, pii b){ return a.f > b.f; }
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
-    cin>>n>>m;
-    while(1){
-        cin>>q;
-        if(!q) break;
-        else if(q == 1){
-            int r, c, v; cin>>r>>c>>v;
-            if((r + c) % 2) v *= -1;
-            update(r, c, -pre[r][c] + v); pre[r][c] = v;
-        }
-        else{
-            int r1, c1, r2, c2; cin>>r1>>c1>>r2>>c2;
-            int t = query(r2, c2) - query(r1-1, c2) - query(r2, c1-1) + query(r1-1, c1-1);
-            if((r1 + c1) % 2) t *= -1;
-            cout<<t<<'\n';
-        }
+    cin>>n;
+    for(int i = 0; i < n; i++){ cin>>a[i].f; a[i].s = i+1;}
+    sort(a, a + n, srt);
+    cin>>q;
+    for(int i = 0; i < q; i++){ cin>>qu[i].s>>qu[i].t>>qu[i].f; qu[i].i = i;}
+    sort(qu, qu + q);
+    for(int i = 0; i < q; i++){
+        while(y < n && a[y].f >= qu[i].f){ update(a[y].s, a[y].f); y++;}
+        ans[qu[i].i] = get(qu[i].t) - get(qu[i].s-1);
     }
+    for(int i = 0; i < q; i++) cout<<ans[i]<<endl;
 }

@@ -1,6 +1,7 @@
 #pragma GCC optimize("Ofast,unroll-loops")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #include <bits/stdc++.h>
+#include <queue>
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace std;
 using namespace __gnu_pbds;
@@ -23,36 +24,23 @@ struct tri {int first, second, t;bool operator<(const tri& T){return first < T.f
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-const int MAX = 3e3;
-int n, m, q, pre[MAX][MAX], bit[MAX][MAX];
-void update(int r, int c, int val){
-    for(int i = r; i <= n; i += i & -i){
-        for(int y = c; y <= m; y += y & -y) bit[i][y] += val;
-    }
-}
-int query(int r, int c){
-    int ret = 0;
-    for(int i = r; i; i -= i & -i){
-        for(int y = c; y; y -= y & -y) ret += bit[i][y];
-    }
-    return ret;
-}
+string s;
+pair<string, int> m[5];
+int M, ans = 0;
+bool srt(pair<string, int> a, pair<string, int> b){return a.f.length() > b.f.length();}
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
-    cin>>n>>m;
-    while(1){
-        cin>>q;
-        if(!q) break;
-        else if(q == 1){
-            int r, c, v; cin>>r>>c>>v;
-            if((r + c) % 2) v *= -1;
-            update(r, c, -pre[r][c] + v); pre[r][c] = v;
-        }
-        else{
-            int r1, c1, r2, c2; cin>>r1>>c1>>r2>>c2;
-            int t = query(r2, c2) - query(r1-1, c2) - query(r2, c1-1) + query(r1-1, c1-1);
-            if((r1 + c1) % 2) t *= -1;
-            cout<<t<<'\n';
+    cin>>s>>M;
+    for(int i = 0; i < M; i++) cin>>m[i].f>>m[i].s;
+    sort(m, m + M, srt);
+    for(int i = 0; i < s.length(); i++){
+        for(int y = 0; y < M; y++){
+            if(s.substr(i, m[y].f.length()) == m[y].f){
+                ans += m[y].s;
+                i += m[y].f.length()-1;
+                break;
+            }
         }
     }
+    cout<<ans+s.length()<<endl;
 }

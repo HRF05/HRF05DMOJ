@@ -1,6 +1,7 @@
 #pragma GCC optimize("Ofast,unroll-loops")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #include <bits/stdc++.h>
+#include <queue>
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace std;
 using namespace __gnu_pbds;
@@ -23,36 +24,32 @@ struct tri {int first, second, t;bool operator<(const tri& T){return first < T.f
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-const int MAX = 3e3;
-int n, m, q, pre[MAX][MAX], bit[MAX][MAX];
-void update(int r, int c, int val){
-    for(int i = r; i <= n; i += i & -i){
-        for(int y = c; y <= m; y += y & -y) bit[i][y] += val;
+const int MAX = 2e5 + 5;
+int n;
+vector<int> rt, adj[MAX];
+vector<pii> gr[MAX];
+void dfs(int nd, int pr, int pr2, int anc, bool pa){
+    if(!pr2) rt.pb(anc = nd);
+    else if(pa) gr[anc].pb({nd, pr2});
+    else gr[1].pb({nd, pr2});
+    for(auto ed : adj[nd]){
+        if(ed == pr) continue;
+        dfs(ed, nd, pr, anc, 1-pa);
     }
-}
-int query(int r, int c){
-    int ret = 0;
-    for(int i = r; i; i -= i & -i){
-        for(int y = c; y; y -= y & -y) ret += bit[i][y];
-    }
-    return ret;
 }
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
-    cin>>n>>m;
-    while(1){
-        cin>>q;
-        if(!q) break;
-        else if(q == 1){
-            int r, c, v; cin>>r>>c>>v;
-            if((r + c) % 2) v *= -1;
-            update(r, c, -pre[r][c] + v); pre[r][c] = v;
-        }
-        else{
-            int r1, c1, r2, c2; cin>>r1>>c1>>r2>>c2;
-            int t = query(r2, c2) - query(r1-1, c2) - query(r2, c1-1) + query(r1-1, c1-1);
-            if((r1 + c1) % 2) t *= -1;
-            cout<<t<<'\n';
+    cin>>n;
+    for(int i = 1, a, b; i < n; i++){
+        cin>>a>>b;
+        adj[b].pb(a); adj[a].pb(b);
+    }
+    dfs(1, 0, 0, 0, 0);
+    cout<<rt.size()<<endl;
+    for(auto re : rt){
+        cout<<gr[re].size()+1<<endl;
+        for(auto ed : gr[re]){
+            cout<<ed.s<<" "<<ed.f<<endl;
         }
     }
 }

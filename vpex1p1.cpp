@@ -7,10 +7,7 @@ int main(){
 		for(int y = 0; y < 5; y++){
 			cin>>x;
 			c += x;
-			if(x < z)
-			{
-				z = x;
-			}
+			if(x < z) z = x;
 		}
 		c -= z;
 		z = 101;
@@ -19,12 +16,8 @@ int main(){
 			c = 0;
 		}
 		else{
-			if(k > c){
-				cout<<k<<endl;
-			}
-			else{
-				cout<<c<<endl;
-			}
+			if(k > c) cout<<k<<endl;
+			else cout<<c<<endl;
 		}
 
 	}

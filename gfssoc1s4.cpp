@@ -23,36 +23,41 @@ struct tri {int first, second, t;bool operator<(const tri& T){return first < T.f
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-const int MAX = 3e3;
-int n, m, q, pre[MAX][MAX], bit[MAX][MAX];
-void update(int r, int c, int val){
-    for(int i = r; i <= n; i += i & -i){
-        for(int y = c; y <= m; y += y & -y) bit[i][y] += val;
+const int MAX = 251;
+int n, q, pre[MAX][MAX][MAX];
+ll ans, bit[MAX][MAX][MAX];
+char c;
+void update(int x, int y, int z, int val){
+    for(int i = x; i <= n; i += i&-i){
+        for(int j = y; j <= n; j += j&-j){
+            for(int k = z; k <= n; k += k&-k) bit[i][j][k] += val;
+        }
     }
 }
-int query(int r, int c){
-    int ret = 0;
-    for(int i = r; i; i -= i & -i){
-        for(int y = c; y; y -= y & -y) ret += bit[i][y];
+ll get(int x, int y, int z){
+    ll ret = 0;
+    for(int i = x; i; i -= i&-i){
+        for(int j = y; j; j -= j&-j){
+            for(int k = z; k; k -= k&-k) ret += bit[i][j][k];
+        }
     }
     return ret;
 }
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
-    cin>>n>>m;
-    while(1){
-        cin>>q;
-        if(!q) break;
-        else if(q == 1){
-            int r, c, v; cin>>r>>c>>v;
-            if((r + c) % 2) v *= -1;
-            update(r, c, -pre[r][c] + v); pre[r][c] = v;
+    cin>>n>>q;
+    while(q--){
+        cin>>c;
+        if(c == 'C'){
+            int x, y, z, val; cin>>x>>y>>z>>val;
+            update(x, y, z, val-pre[x][y][z]);
+            pre[x][y][z] = val;
         }
         else{
-            int r1, c1, r2, c2; cin>>r1>>c1>>r2>>c2;
-            int t = query(r2, c2) - query(r1-1, c2) - query(r2, c1-1) + query(r1-1, c1-1);
-            if((r1 + c1) % 2) t *= -1;
-            cout<<t<<'\n';
+            int x, y, z, x1, y1, z1; cin>>x>>y>>z>>x1>>y1>>z1;
+            x--;y--;z--;
+            ans += get(x1, y1, z1) - get(x, y, z) + get(x1, y, z) + get(x, y1, z) + get(x, y, z1) - get(x1, y1, z) - get(x1, y, z1) - get(x, y1, z1);
         }
     }
+    cout<<ans<<endl;
 }

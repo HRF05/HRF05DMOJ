@@ -23,36 +23,27 @@ struct tri {int first, second, t;bool operator<(const tri& T){return first < T.f
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-const int MAX = 3e3;
-int n, m, q, pre[MAX][MAX], bit[MAX][MAX];
-void update(int r, int c, int val){
-    for(int i = r; i <= n; i += i & -i){
-        for(int y = c; y <= m; y += y & -y) bit[i][y] += val;
-    }
+const int MAX = 1e5 + 5;
+int n, bit[MAX], a[MAX];
+double ans = 0;
+set<int> cr;
+void update(int x, int val){
+    for(; x <= n; x += x&-x) bit[x] += val;
 }
-int query(int r, int c){
+int get(int x){
     int ret = 0;
-    for(int i = r; i; i -= i & -i){
-        for(int y = c; y; y -= y & -y) ret += bit[i][y];
-    }
+    for(; x > 0; x -= x&-x) ret += bit[x];
     return ret;
 }
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
-    cin>>n>>m;
-    while(1){
-        cin>>q;
-        if(!q) break;
-        else if(q == 1){
-            int r, c, v; cin>>r>>c>>v;
-            if((r + c) % 2) v *= -1;
-            update(r, c, -pre[r][c] + v); pre[r][c] = v;
-        }
-        else{
-            int r1, c1, r2, c2; cin>>r1>>c1>>r2>>c2;
-            int t = query(r2, c2) - query(r1-1, c2) - query(r2, c1-1) + query(r1-1, c1-1);
-            if((r1 + c1) % 2) t *= -1;
-            cout<<t<<'\n';
-        }
+    cin>>n;
+    for(int i = 0; i < n; i++){ cin>>a[i]; cr.insert(a[i]); }
+    vector<int> co(cr.begin(), cr.end());
+    for(int i = 0; i < n; i++){
+        int x = lower_bound(co.begin(), co.end(), a[i]) - co.begin() + 1;
+        ans += i-get(x)+1;
+        update(x, 1);
     }
+    cout<<fixed<<setprecision(2)<<ans/n<<endl;
 }

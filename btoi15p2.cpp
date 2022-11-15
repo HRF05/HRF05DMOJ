@@ -40,16 +40,9 @@ int main(){
         if(ar[i] < 0){
             lvl[i] = -ar[i];
             prnt[i][0] = blift(blift(i-1, lvl[i]-1) - 1, lvl[i]-1);
-            //cout<<prnt[i][0]<<" ";
-            for(int y = 1; y < 16; y++){
-                prnt[i][y] =  prnt[prnt[i][y-1]][y-1];
-                //cout<<prnt[i][y]<<" ";
-            }
-            //cout<<endl;
+            for(int y = 1; y < 16; y++) prnt[i][y] =  prnt[prnt[i][y-1]][y-1];
             cout<<ar[blift(i, 0)]<<endl; 
         }
-        else{
-            cout<<ar[i]<<endl;
-        }
+        else cout<<ar[i]<<endl;
     }
 }

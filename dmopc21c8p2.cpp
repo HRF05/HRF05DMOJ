@@ -1,6 +1,7 @@
 #pragma GCC optimize("Ofast,unroll-loops")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #include <bits/stdc++.h>
+#include <queue>
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace std;
 using namespace __gnu_pbds;
@@ -23,36 +24,33 @@ struct tri {int first, second, t;bool operator<(const tri& T){return first < T.f
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-const int MAX = 3e3;
-int n, m, q, pre[MAX][MAX], bit[MAX][MAX];
-void update(int r, int c, int val){
-    for(int i = r; i <= n; i += i & -i){
-        for(int y = c; y <= m; y += y & -y) bit[i][y] += val;
-    }
-}
-int query(int r, int c){
-    int ret = 0;
-    for(int i = r; i; i -= i & -i){
-        for(int y = c; y; y -= y & -y) ret += bit[i][y];
+const int MAX = 1e6+5, mod = 1e9 + 7;
+int n, g[MAX][2], t;
+int modpow(ll a, int b){
+    if(!a) return 0;
+    int ret = 1;
+    while(b){
+        if(b % 2) ret = (ret * a) % mod;
+        a = (a * a) % mod;
+        b /= 2;
     }
     return ret;
 }
-int main(){
-    cin.sync_with_stdio(0); cin.tie(0);
-    cin>>n>>m;
-    while(1){
-        cin>>q;
-        if(!q) break;
-        else if(q == 1){
-            int r, c, v; cin>>r>>c>>v;
-            if((r + c) % 2) v *= -1;
-            update(r, c, -pre[r][c] + v); pre[r][c] = v;
-        }
-        else{
-            int r1, c1, r2, c2; cin>>r1>>c1>>r2>>c2;
-            int t = query(r2, c2) - query(r1-1, c2) - query(r2, c1-1) + query(r1-1, c1-1);
-            if((r1 + c1) % 2) t *= -1;
-            cout<<t<<'\n';
-        }
+void end(){ cout<<0<<endl; exit(0); }
+int get(bool j){
+    int em = 0, ret = 0, m = 2, x = 2 * t;
+    for(int i = j; i < n; i+=2){
+        if(g[i][0] && g[i][1]){ x = min(x, g[i][0]+g[i][1]); m = max(m, g[i][0]+g[i][1]); }
+        else if(g[i][0]){ x = min(x, g[i][0]+t); m = max(m, g[i][0]+1); }
+        else if(g[i][1]){ x = min(x, g[i][1]+t); m = max(m, g[i][1]+1); }
+        else em++;
     }
+    for(int i = m; i <= x; i++) ret = (ret + modpow(i-1-2*(max(0, i-t-1)), em)) % mod;
+    return ret;
+}
+int main() {
+    su(n);su(t);
+    for(int i = 0; i < n; i++) su(g[i][0]);
+    for(int i = 0; i < n; i++) su(g[i][1]);
+    cout<<((ll)get(0) * (ll)get(1)) % mod<<endl;
 }
