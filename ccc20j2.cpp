@@ -1,23 +1,12 @@
 #include <iostream>
 using namespace std;
-
-
-
-int main()
-{
-	int p, n, r, add, t;
-	cin>>p;
-	cin>>n;
-	cin>>r;
+int p, n, r, t;
+int main(){
+	cin>>p>>n>>r;
 	t = n;
-	for(int i = 0; n <= p; i++)
-	{
-		add = t * r;
-		t = add;
-		n = n + add;
-		if(n > p)
-		{
-			cout<<i + 1<<endl;
-		}
+	for(int i = 0; n <= p; i++){
+		t *= r;
+		n += t;
+		if(n > p) cout<<i + 1<<endl;
 	}
 }

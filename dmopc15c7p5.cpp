@@ -25,51 +25,52 @@ struct tri {int first, second, t;bool operator<(const tri& T){return first < T.f
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
 const int MAX = 1e5 + 5;
-int n, in[MAX], out[MAX], cnt = 0, qu, u, v, pr[MAX][20], dist[MAX];
-vector<int> adj[MAX];
+int n, in[MAX], cnt = 0, pr[MAX][17], dist[MAX], sz[MAX], adj[MAX];
+pii id[MAX];
 void dfs(int nd, int prnt){
-    in[nd] = ++cnt;
-    dist[nd] = dist[prnt]+1;
-    pr[nd][0] = prnt;
-    for(int i = 1; i < 20; i++) pr[nd][i] = pr[pr[nd][i-1]][i-1];
-    for(auto ed : adj[nd]){
-        dfs(ed, nd);
+    sz[nd] = 1; pr[nd][0] = prnt;
+    if(nd){
+        in[nd] = ++cnt; dist[nd] = dist[prnt]+1;
+        for(int i = 1; i < 17; i++){
+            if(pr[pr[nd][i-1]][i-1] == -1) break;
+            pr[nd][i] = pr[pr[nd][i-1]][i-1];
+        }
     }
-    out[nd] = cnt++;
+    for(int i = id[nd].f; i < id[nd].s; i++){
+        dfs(adj[i], nd); sz[nd] += sz[adj[i]];
+    }
+    cnt++;
 }
-bool isAnc(int u, int v){
-    return in[u] <= in[v] && out[u] >= out[v];
+int jump(int start, int height){
+    for(int i = 0; i < 17; i++){
+        if((height>>i)&1) start = pr[start][i];
+    }
+    return start;
 }
-
 int lca(int u, int v){
-    if(isAnc(u, v)) return u;
-    if(isAnc(v, u)) return v;
-    for(int i = 19; i >= 0; i--){
-        if(isAnc(pr[u][i], v)) u = pr[u][i];
+    if(dist[u] < dist[v]) swap(u, v);
+    u = jump(u, dist[u] - dist[v]);
+    if(u == v) return u;
+    for(int i = 16; i >= 0; i--){
+        if(pr[u][i] != pr[v][i]){u = pr[u][i]; v = pr[v][i];}
     }
     return pr[u][0];
 }
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
     cin>>n;
-    for(int i = 0, a, nd; i < n; i++){
+    for(int i = 0, a, y = 0; i < n; adj[i]--, i++, y += a){
         cin>>a;
-        while(a--){
-            cin>>nd;
-            adj[i].pb(--nd);
-        }
+        id[i] = {y, y+a};
+        for(int j = y; j < id[i].s; j++) cin>>adj[j];
     }
-    dfs(0, 0);
-    cin>>qu;
+    dfs(0, -1);
+    int qu; cin>>qu;
     while(qu--){
-        cin>>u>>v; u--;v--;
-        if(in[u] < in[v]){
-            int x = lca(u, v);
-            cout<<in[v] - in[x] - dist[u] + dist[x]<<endl;
-        }
-        else{
-            int x = lca(v, u);
-            cout<<out[x] - out[u] - dist[u] + dist[x]<<endl;
-        }
+        int u, v; cin>>u>>v; u--;v--;
+        int x = lca(u, v);
+        if(in[u] == in[v]) cout<<0<<endl;
+        else if(in[u] < in[v]) cout<<in[v] - in[x] - dist[u] + dist[x]<<endl;
+        else cout<<sz[jump(u, dist[u]-dist[x]-1)]*2 + in[v] - in[x] - dist[u] + dist[x]<<endl;
   }
 }

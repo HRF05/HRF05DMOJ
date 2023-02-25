@@ -76,10 +76,7 @@ long long Query(int S, int X[], int T, int Y[]){
         }
     }
     for(int i = 0; i < T; i++){
-        for(int y = Y[i]; y != -1; y = cparent[y]){
-            ans = min(ans, dist[Y[i]][lvl[y]] + distt[y]);
-            r.pb(y);
-        }
+        for(int y = Y[i]; y != -1; y = cparent[y]) ans = min(ans, dist[Y[i]][lvl[y]] + distt[y]);
     }
     for(auto i : r){
         distt[i] = INF;
