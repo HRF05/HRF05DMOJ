@@ -21,20 +21,29 @@ struct tri {int first, second, t;bool operator<(const tri& T){return first < T.f
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-int n, l, s, ans, pi, v;
-map<int, int> a;
+const int MAX = 2e1 + 5;
+int n, m;
+vector<int> ce[MAX];
+int rc(int ls, bool vis[MAX]){
+    for(auto ed : ce[ls]){
+        if(vis[ed]) return 0;
+    }
+    vis[ls] = 1;
+    int ret = 1;
+    for(int i = ls+1; i <= n; i++){
+        cout<<i<<" ";
+        rc(i, vis);
+    }
+    vis[ls] = 0;
+    return ret;
+}
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
-    cin>>n>>l>>s;
-    while(n--){
-        int f, b, c;
-        cin>>f>>b>>c;
-        a[f] += c;
-        a[b + 1] -= c;
+    cin>>n>>m;
+    for(int i = 0, a, b; i < m; i++){
+        cin>>a>>b;
+        ce[a].pb(b); ce[b].pb(a);
     }
-    for(auto i : a){
-        if(v < s) ans += i.f - pi;
-        pi = i.f; v += i.s;
-    }
-    cout<<ans + l - pi<<endl;
+    bool vis[MAX]{0};
+    cout<<rc(0, vis)<<endl;
 }

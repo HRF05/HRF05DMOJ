@@ -21,20 +21,37 @@ struct tri {int first, second, t;bool operator<(const tri& T){return first < T.f
 #define si(x) do{while((x=getchar())<45); _sign=x==45; if(_sign) while((x=getchar())<48); for(x-=48; 48<=(_=getchar()); x=(x<<3)+(x<<1)+_-48); x=_sign?-x:x;}while(0)
 #define sc(x) do{while((x=getchar())<33);}while(0)
 char _; bool _sign;
-int n, l, s, ans, pi, v;
-map<int, int> a;
+const int MAX = 1e2 + 5;
+bool vis[MAX];
+int n;
+vi adj[MAX];
+int dfs(int nd, int i){
+    if(nd == i && vis[nd]) return 1;
+    for(auto ed : adj[nd]){
+        if(vis[ed]) continue;
+        vis[ed] = 1;
+        int c = dfs(ed, i);
+        if(c) return c+1;
+    }
+    return 0;
+}
+void solve(){
+    cin>>n;
+    for(int i = 1; i <= n; i++) adj[i].clear();
+    for(int i = 0, a, b; i < n; i++){
+        cin>>a>>b;
+        adj[a].pb(b);
+    }
+    
+    for(int i = 1, c; i <= n; i++){
+        c = dfs(i, i);
+        for(int i = 1; i <= n; i++) vis[i] = 0;
+        if(c){ cout<<c-1<<endl; break;}
+    }
+}
 int main(){
     cin.sync_with_stdio(0); cin.tie(0);
-    cin>>n>>l>>s;
-    while(n--){
-        int f, b, c;
-        cin>>f>>b>>c;
-        a[f] += c;
-        a[b + 1] -= c;
+    for(int i = 0; i < 5; i++){
+        solve();
     }
-    for(auto i : a){
-        if(v < s) ans += i.f - pi;
-        pi = i.f; v += i.s;
-    }
-    cout<<ans + l - pi<<endl;
 }
